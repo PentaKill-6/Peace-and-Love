@@ -1,5 +1,7 @@
 <template>
-    <dir>确认订单页</dir>
+   <div>
+       123
+   </div>
 </template>
 
 <script>
