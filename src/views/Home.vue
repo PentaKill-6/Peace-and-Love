@@ -1,5 +1,7 @@
 <template>
-    <div>首页城市列表项</div>
+    <div>首页城市列表项
+        <van-button type="primary">主要按钮</van-button>
+    </div>
 </template>
 
 <script>
