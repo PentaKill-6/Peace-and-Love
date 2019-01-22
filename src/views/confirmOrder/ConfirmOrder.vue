@@ -110,7 +110,7 @@ export default {
     onClickLeft() {},
     onSubmit(){
         console.log(12313)
-        this.$router.push("/confirmOrder/payment")
+        this.$router.push("/components/payment")
     }
 
   }
