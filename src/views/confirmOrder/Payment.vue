@@ -1,5 +1,7 @@
 <template>
-    <div>付款页面</div>
+    <div>
+       3132123123123132
+    </div>
 </template>
 
 <script>
