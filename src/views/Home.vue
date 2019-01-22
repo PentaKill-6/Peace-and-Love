@@ -1,6 +1,8 @@
 <template>
-    <div>首页城市列表项
-        <van-button type="primary">主要按钮</van-button>
+    <div>
+        <div class="header">
+            
+        </div>
     </div>
 </template>
 
