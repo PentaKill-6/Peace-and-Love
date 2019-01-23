@@ -74,6 +74,11 @@ export default new Router({
           path:'/login',
           component:() => import('../views/Login.vue')
         },
+        //重置密码
+        {
+          path:'/reset',
+          component:()=>import('../views/Reset.vue')
+        },
         // 个人信息
         {
           path:'/profile',

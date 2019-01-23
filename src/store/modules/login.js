@@ -23,6 +23,11 @@ export default {
                 // console.log(res.data)
                 commit('setCode',res.data.code)
             })
+        },
+        update({commit},user){
+            axios.post('/v2/changepassword',user).then(res=>{
+                console.log(res.data)
+            })
         }
     },
     mutations:{
