@@ -52,7 +52,7 @@ export default {
         search({commit},city){
             // console.log(city);
             axios.get('/v1/pois?city_id='+city.city_id+'&keyword='+city.keyword).then(res => {
-                console.log(res)
+                // console.log(res)
                 commit('searchAddr',res.data);
             })
         },
