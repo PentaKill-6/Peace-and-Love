@@ -7,12 +7,14 @@ import state from './state'
 import getters from './getters'
 import mutations from './mutations'
 import actions from './actions'
+
+import home from './modules/home'
 export default new Vuex.Store({
   state,
   getters,
   mutations,
   actions,
   modules:{
-    
+    home
   }
 })
