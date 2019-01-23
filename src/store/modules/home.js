@@ -32,7 +32,7 @@ export default {
     actions:{
         getGuess({commit}){
             axios.get('/v1/cities?type=guess').then(res => {
-                console.log(res)
+                // console.log(res)
                 commit('getGuess',res.data);
             })
         },
@@ -50,7 +50,7 @@ export default {
             })
         },
         search({commit},city){
-            console.log(city);
+            // console.log(city);
             axios.get('/v1/pois?city_id='+city.city_id+'&keyword='+city.keyword).then(res => {
                 console.log(res)
                 commit('searchAddr',res.data);
