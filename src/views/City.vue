@@ -46,6 +46,7 @@ export default {
         },
         goToMsite(addr){
             console.log(addr) // 点击所对应的地址的数据
+            localStorage.setItem('historyAddr',JSON.stringify(addr));
             this.$router.push('/msite?geohash='+addr.geohash)
         }
     },
