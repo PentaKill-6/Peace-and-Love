@@ -3,6 +3,7 @@
          <van-nav-bar title="添加收货地址" left-text="返回" left-arrow  @click-left="onClickLeft"/>
         <van-address-edit
             :area-list="areaList"
+            :address-info="addressinfo"
             show-postal
             show-delete
             show-set-default
@@ -26,16 +27,36 @@ export default {
       searchResult: []
     }
   },
+  computed: {
+    addressinfo(){
+     return this.$store.state.confirmOeder.addressinfo
+    }
+  },
   created () {
       
   },
   methods: {
     onSave(val) {
-        console.log(val)
-      Toast('save');
+      if(this.addressinfo.id){//验证是否存在id id若不存在则证明为新加否则修改
+           this.$store.commit("confirmOeder/preservationAddress",val)
+      }else{//id是user_id用户id
+        this.$store.dispatch("confirmOeder/newAddress",val,33).then((res)=>{
+              this.$router.push("chooseAddress")
+              Toast("添加成功")
+        })
+      }
+       setTimeout(()=>{
+        
+        },500)
     },
-    onDelete() {
-      Toast('delete');
+    onDelete(val) {
+        val.user_id=33
+      console.log(val)
+      this.$store.dispatch("confirmOeder/deleteAddress",val).then((res)=>{
+        this.$router.push("/components/chooseAddress/chooseAddress")
+        Toast('删除成功');
+      })
+      
     },
     onChangeDetail(val) {//详细地址提示
       if (val) {
@@ -47,8 +68,8 @@ export default {
         this.searchResult = [];
       }
     },
-    onClickLeft(){
-       
+    onClickLeft(){//跳回地址页 不做更改
+      this.$router.push("chooseAddress") 
     }
   }
 }

@@ -5,14 +5,14 @@
       <div class="ordercont_address">
         <p>订单配送至</p>
         <h3>
-            <p>选择收货地址snxanxkanskx</p>
+            <p @click="addre">{{(address==0)?"选择收货地址":address.address}}</p>
             <span>
                 <van-icon name="arrow"/>
             </span>
         </h3>
-        <p class="ordercont_tel">
-          <span>张（先生）</span>
-          <span>12313121312</span>
+        <p class="ordercont_tel" v-if="!(address==0)">
+          <span>{{address.name}}({{(address.sex==1)?"先生":"女士"}})</span>
+          <span>{{address.tel}}</span>
         </p>
       </div>
       <div class="ordercont_time">
@@ -22,7 +22,7 @@
                   <p class="ordercont_time_zs">蜂鸟专送</p>
               </div>
               <div class="ordercont_time_b">
-                  尽快送达(14：17送达)
+                  尽快送达({{h}}：{{(m > 10)?m:"0"+m}}送达)
               </div>
           </div>
           <div class="ordercont_time_payment">
@@ -106,13 +106,45 @@
 
 <script>
 export default {
+    data () {
+        return {
+            h:"",
+            m:""
+        }
+    },
+    created () {
+        this.getH()
+    },
+    computed: {
+        address(){
+            return this.$store.state.confirmOeder.address
+        }  
+    },
   methods: {
     onClickLeft() {},
-    onSubmit(){
-        console.log(12313)
+    onSubmit(){//跳转结算页
         this.$router.push("/components/payment")
+    },
+    addre(){//跳转选择地址页
+        this.$router.push("/components/chooseAddress/chooseAddress")
+    },
+    getH(){//计算送达时间
+        let mydate= new Date();
+        let hs = mydate.getHours();
+        let ms = mydate.getMinutes();
+       if(ms+30 > 60){
+           if(hs == 12){
+               this.h = 1;
+               this.m = ms+30-60;
+           }else{
+               this.h = hs+1;
+           this.m = ms+30-60;
+           }  
+       }else{
+           this.h = hs;
+           this.m = ms+30
+       }
     }
-
   }
 };
 </script>
@@ -279,6 +311,9 @@ export default {
 }
 .ordercont_tel{
     margin-top: .1rem;  
+}
+.ordercont_tel>span{
+    margin-right: .1rem;
 }
 /* ordercont_time_ok */
 .ordercont_time{
