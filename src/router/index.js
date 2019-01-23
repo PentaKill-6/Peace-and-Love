@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 import App from '../App'
 import Home from '../views/Home'
+import Login from '../views/Login'
 export default new Router({
   // mode: 'history',
   // base: process.env.BASE_URL,

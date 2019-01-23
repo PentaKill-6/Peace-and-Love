@@ -9,12 +9,14 @@ import mutations from './mutations'
 import actions from './actions'
 
 import home from './modules/home'
+import login from '../store/modules/login'
 export default new Vuex.Store({
   state,
   getters,
   mutations,
   actions,
   modules:{
-    home
+    home,
+    login
   }
 })
