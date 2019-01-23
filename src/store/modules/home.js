@@ -7,7 +7,8 @@ export default {
         hotCity:[],
         cityAll:[],
         searchAddr:[],
-        cityTopName:''
+        cityTopName:'',
+        addHistory:[]
     },
     mutations:{
         getGuess(state,data){
@@ -31,29 +32,40 @@ export default {
     },
     actions:{
         getGuess({commit}){
-            axios.get('/v1/cities?type=guess').then(res => {
-                // console.log(res)
-                commit('getGuess',res.data);
+            return new Promise((resolve,reject) => {
+                axios.get('/v1/cities?type=guess').then(res => {
+                    // console.log(res)
+                    commit('getGuess',res.data);
+                    resolve();
+                })
             })
         },
         getHot({commit}){
-            axios.get('/v1/cities?type=hot').then(res => {
-                // console.log(res)
-                commit('getHot',res.data);
+            return new Promise((resolve,reject) => {
+                axios.get('/v1/cities?type=hot').then(res => {
+                    // console.log(res)
+                    commit('getHot',res.data);
+                    resolve();
+                })
             })
         },
         getAll({commit}){
-            axios.get('/v1/cities?type=group').then(res => {
-                // console.log(res.data)
-                // this.cityAll = this.formatCities(res.data);
-                commit('getAll',res.data);
+            return new Promise((resolve,reject) => {
+                axios.get('/v1/cities?type=group').then(res => {
+                    // console.log(res.data)
+                    // this.cityAll = this.formatCities(res.data);
+                    commit('getAll',res.data);
+                    resolve();
+                })
             })
         },
         search({commit},city){
-            // console.log(city);
-            axios.get('/v1/pois?city_id='+city.city_id+'&keyword='+city.keyword).then(res => {
-                // console.log(res)
-                commit('searchAddr',res.data);
+            return new Promise((resolve,reject) => {
+                axios.get('/v1/pois?city_id='+city.city_id+'&keyword='+city.keyword).then(res => {
+                    // console.log(res)
+                    commit('searchAddr',res.data);
+                    resolve();
+                })
             })
         },
         cityTop({commit},data){
