@@ -4,7 +4,8 @@ import Router from 'vue-router'
 Vue.use(Router)
 import App from '../App'
 import Home from '../views/Home'
-export default new Router({
+import Login from '../views/Login'
+const router =  new Router({
   // mode: 'history',
   // base: process.env.BASE_URL,
   routes: [{
@@ -58,38 +59,66 @@ export default new Router({
           component: () => import('../views/confirmOrder/ConfirmOrder')
         }, 
         {
-          path: 'userValidation', // 用户验证
-          component: () => import('../views/confirmOrder/UserValidation.vue')
+          path:'/confirmOrder',
+          component:() => import('../views/confirmOrder/ConfirmOrder'),
+          meta:{
+            auth:true
           },
-          {
-            path: 'chooseAddress', 
-            redirect: "chooseAddress/chooseAddress",
-          component: () => import('../views/confirmOrder/chooseAddressIndex.vue'),
-          children: [{
-            path: 'addAddress', //添加地址
-            component: () => import('../views/confirmOrder/AddAddress.vue')
-          },
-          {
-             path: 'chooseAddress', // 选择地址
-               component: () => import('../views/confirmOrder/ChooesAddress.vue')
+          children:[
+            {
+              path:'payment', // 付款页面
+              component:() => import('../views/confirmOrder/Payment')
+            },{
+              path:'userValidation', // 用户验证
+              component:() => import('../views/confirmOrder/UserValidation.vue')
+            },{
+              path:'/chooseAddress', // 选择地址
+              component:() => import('../views/confirmOrder/ChooesAddress.vue'),
+              children:[{
+                path:'/addAddress', //添加地址
+                component:() => import('../views/confirmOrder/AddAddress.vue')
+              }]
             }
           ]
-        }]
-      },
-      // 登录注册
-      {
-        path: '/login',
-        component: () => import('../views/Login.vue')
-      },
-      // 个人信息
-      {
-        path: '/profile',
-        component: () => import('../views/profile/Profile'),
-        children: [{
-          path: 'info', // 个人信息详情页
-          component: () => import('../views/profile/Info')
-        }]
-      }
-    ]
-  }]
+        },
+        // 登录注册
+        {
+          path:'/login',
+          component:() => import('../views/Login.vue')
+        },
+        //重置密码
+        {
+          path:'/reset',
+          component:()=>import('../views/Reset.vue')
+        },
+        // 个人信息
+        {
+          path:'/profile',
+          component:() => import('../views/profile/Profile'),
+          meta:{
+            auth:true
+          },
+          children:[{
+            path:'info', // 个人信息详情页
+            component:() => import('../views/profile/Info')
+          }]
+        }
+      ]
+    }
+  ]
 })
+
+router.beforeEach((to,from,next) => {
+  const login = localStorage.getItem('status');
+  if(to.matched.some(route => route.meta.auth)){
+    if(login == '1'){
+      next();
+    }else{
+      next('/login?returnURL='+to.path);
+    }
+  }else{
+    next();
+  }
+})
+
+export default router
