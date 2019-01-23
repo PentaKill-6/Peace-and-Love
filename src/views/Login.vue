@@ -2,7 +2,7 @@
   <div class="login">
     <div class="login-header">
       <div class="login-h">
-        <van-icon name="arrow-left"/>
+        <van-icon name="arrow-left" @click="goback"/>
         <p class="title">密码登录</p>
       </div>
     </div>
@@ -71,6 +71,9 @@ export default {
             this.$store.dispatch('login/changeCode').then(()=>{
 
             })
+        },
+        goback(){
+            this.$router.push('/home')
         }
     }
 };
