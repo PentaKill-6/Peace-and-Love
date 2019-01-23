@@ -5,7 +5,7 @@ Vue.use(Router)
 import App from '../App'
 import Home from '../views/Home'
 import Login from '../views/Login'
-export default new Router({
+const router =  new Router({
   // mode: 'history',
   // base: process.env.BASE_URL,
   routes: [
@@ -52,6 +52,9 @@ export default new Router({
         {
           path:'/confirmOrder',
           component:() => import('../views/confirmOrder/ConfirmOrder'),
+          meta:{
+            auth:true
+          },
           children:[
             {
               path:'payment', // 付款页面
@@ -83,6 +86,9 @@ export default new Router({
         {
           path:'/profile',
           component:() => import('../views/profile/Profile'),
+          meta:{
+            auth:true
+          },
           children:[{
             path:'info', // 个人信息详情页
             component:() => import('../views/profile/Info')
@@ -92,3 +98,18 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to,from,next) => {
+  const login = localStorage.getItem('status');
+  if(to.matched.some(route => route.meta.auth)){
+    if(login == '1'){
+      next();
+    }else{
+      next('/login?returnURL='+to.path);
+    }
+  }else{
+    next();
+  }
+})
+
+export default router
