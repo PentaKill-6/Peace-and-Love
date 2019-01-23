@@ -10,6 +10,12 @@
             <button @click="search">提交</button>
         </div>
         <div class="history-top" v-if="!searchAddr.length">搜索历史</div>
+        <div class="searchAddr" v-if="!searchAddr.length">
+            <div @click="goToMsite(addr)" class="addrList" v-for="(addr,index) in addHistory" :key="index">
+                <span>{{addr.name}}</span>
+                <span>{{addr.address}}</span>
+            </div>
+        </div>
         <div class="searchAddr">
             <div @click="goToMsite(addr)" class="addrList" v-for="(addr,index) in searchAddr" :key="index">
                 <span>{{addr.name}}</span>
@@ -24,7 +30,9 @@ import axios from '../axios'
 export default {
     data(){
         return {
-            cityAddr:''
+            cityAddr:'',
+            addHistory:[],
+            showHistory:true
         }
     },
     computed:{
@@ -45,12 +53,26 @@ export default {
             this.$store.dispatch('home/search',city);
         },
         goToMsite(addr){
-            console.log(addr) // 点击所对应的地址的数据
-            localStorage.setItem('historyAddr',JSON.stringify(addr));
+            // console.log(addr) // 点击所对应的地址的数据
+            if(this.addHistory.length){
+                if(!(this.addHistory.some(site => addr.geohash === site.geohash))){
+                    this.addHistory.push(addr);
+                }
+            }else{
+                this.addHistory.push(addr);                
+            }
+            this.showHistory = false;
+            localStorage.setItem('historyAddr',JSON.stringify(this.addHistory));
             this.$router.push('/msite?geohash='+addr.geohash)
         }
     },
     created(){
+        let localAddr = JSON.parse(localStorage.getItem('historyAddr'))
+        if(localAddr){
+            this.addHistory = localAddr;
+        }else{
+            this.addHistory=[];
+        }
         
     }
 }
