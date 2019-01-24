@@ -3,7 +3,7 @@
     <van-nav-bar title="在线支付" left-text="返回" left-arrow @click-left="onClickLeft"/>
     <div class="paym_title">
       <p>支付剩余时间</p>
-      <p>00:14.39</p>
+      <p>{{th}}</p>
       <div>
         <div>
           <p>皇堡(盘槐里店)外卖订单</p>
@@ -29,23 +29,51 @@
             <van-radio name="2" checked-color="#07c160"></van-radio>
         </div>
         <div class="payment-but">   
-             <van-button type="primary" size="large">确认支付￥101.80</van-button>
+             <van-button type="primary" size="large" @click="payment" >确认支付￥101.80</van-button>
         </div>
-     
-      
     </van-radio-group>
   </div>
 </template>
 
 <script>
+import { Toast } from 'vant';
 export default {
     data() {
     return {
-      radio: '1'
+      radio: '1',
+      th:""
     }
   },
+  created () {
+    this.time(),
+    this.$store.commit("confirmOeder/newtime")
+  },
   methods: {
-    onClickLeft() {}
+    payment(){
+      Toast("支付成功,稍后返回....")
+      setTimeout(()=>{
+        this.$router.push("/")
+      },1500)
+    },
+    onClickLeft() {
+      this.$router.push("/components/confirmOrder")
+    },
+   time(){
+    let tm=900
+      if(tm>0){
+        setInterval(()=>{
+        tm--
+        let h= parseInt(tm/60) 
+        let m=parseInt(tm-(60*h))
+          if(m<9){
+            m="0"+m
+          }
+        this.th="00:"+h+":"+m
+        },1000)
+      }else{
+        this.th="订单已超时"
+      }
+    }
   }
 };
 </script>

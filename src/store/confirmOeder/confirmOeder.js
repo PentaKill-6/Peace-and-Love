@@ -96,15 +96,18 @@ const mutations = {
     state.addressList[val.id].address = val.province + val.city + val.county + val.addressDetail;
   },
   empty(state) {//新添加清除存储信息
-      state.addressinfo = {
-        id: "",
-        name: "",
-        tel: "",
-        province: "",
-        city: "",
-        county: "",
-        addressDetail: ""
-      }
+    state.addressinfo = {
+      id: "",
+      name: "",
+      tel: "",
+      province: "",
+      city: "",
+      county: "",
+      addressDetail: ""
+    }
+  },
+  newtime(state) { 
+
   }
 }
 export default {

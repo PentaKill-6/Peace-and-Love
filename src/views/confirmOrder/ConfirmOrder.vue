@@ -105,6 +105,8 @@
 </template>
 
 <script>
+import { Notify } from 'vant';
+import { Toast } from 'vant';
 export default {
     data () {
         return {
@@ -123,7 +125,13 @@ export default {
   methods: {
     onClickLeft() {},
     onSubmit(){//跳转结算页
+    console.log()
+    if(this.address!=0){
         this.$router.push("/components/payment")
+    }else{
+       
+        Toast.fail('没有收货地址啊.....');
+    }
     },
     addre(){//跳转选择地址页
         this.$router.push("/components/chooseAddress/chooseAddress")
