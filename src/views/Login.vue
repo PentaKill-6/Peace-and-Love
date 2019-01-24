@@ -63,7 +63,7 @@ export default {
             // console.log(checked)
         },
         login(){
-            console.log(this.user)
+            // console.log(this.user)
             this.$store.dispatch('login/testLogin',this.user).then(()=>{
                 
             })

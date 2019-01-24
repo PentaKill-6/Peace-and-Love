@@ -11,6 +11,10 @@ export default {
                 console.log(res.data)
                 localStorage.setItem('status',res.data.username)
                 this.userMessage=res.data
+                // const url=this.$route.query.returnURL
+                // console.log(url)
+                // this.$router.push(url)
+                this.$router.push('/profile')
             })
         },
         changeCode({commit}){

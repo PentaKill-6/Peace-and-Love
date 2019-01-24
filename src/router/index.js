@@ -83,6 +83,10 @@ const router = new Router({
               {
                 path: '/login',
                 component: () => import('../views/Login.vue')
+                // beforeEnter(to,from,next){
+                //   to.query.returnURL=from.path
+                //   next()
+                // }
               },
               //重置密码
               {
@@ -113,6 +117,7 @@ const router = new Router({
             next();
           } else {
             next('/login?returnURL=' + to.path);
+            // console.log(to.path)
           }
         } else {
           next();
