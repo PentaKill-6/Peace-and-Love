@@ -104,6 +104,7 @@ const router = new Router({
                 children: [{
                   path: 'info', // 个人信息详情页
                   component: () => import('../views/profile/Info')
+                  
                 }]
               }
             ]
