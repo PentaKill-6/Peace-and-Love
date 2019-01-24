@@ -12,7 +12,7 @@ export default {
                 axios.post('/v2/login',user).then(res=>{
                     // console.log(res.data)
                     localStorage.setItem('status',res.data.username)
-                    this.userMessage=res.data
+                    commit('setUserMsg',res.data)
                     // console.log(this)
                     resole()
                 })
@@ -33,6 +33,9 @@ export default {
     mutations:{
         setCode(state,code){
             state.captchas=code
+        },
+        setUserMsg(state,userMessage){
+            state.userMessage=userMessage
         }
     }
 }
