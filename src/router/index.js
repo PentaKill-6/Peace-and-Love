@@ -82,11 +82,12 @@ const router = new Router({
               // 登录注册
               {
                 path: '/login',
-                component: () => import('../views/Login.vue')
-                // beforeEnter(to,from,next){
-                //   to.query.returnURL=from.path
-                //   next()
-                // }
+                component: Login,
+                beforeEnter(to,from,next){
+                  // console.log(to,from)
+                  to.query.returnURL=from.path
+                  next()
+                }
               },
               //重置密码
               {
@@ -116,8 +117,14 @@ const router = new Router({
           if (login) {
             next();
           } else {
-            next('/login?returnURL=' + to.path);
-            // console.log(to.path)
+            // console.log(to)
+            next({
+              path:'/login',
+              query:{
+                returnURL:to.path
+              }
+            });
+            
           }
         } else {
           next();

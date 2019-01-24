@@ -1,4 +1,5 @@
 import axios from '../../axios'
+import router from '../../router/index'
 export default {
     namespaced:true,
     state:{
@@ -7,14 +8,14 @@ export default {
     },
     actions:{
         testLogin({commit},user){
-            axios.post('/v2/login',user).then(res=>{
-                console.log(res.data)
-                localStorage.setItem('status',res.data.username)
-                this.userMessage=res.data
-                // const url=this.$route.query.returnURL
-                // console.log(url)
-                // this.$router.push(url)
-                this.$router.push('/profile')
+            return new Promise((resole,reject)=>{
+                axios.post('/v2/login',user).then(res=>{
+                    // console.log(res.data)
+                    localStorage.setItem('status',res.data.username)
+                    this.userMessage=res.data
+                    // console.log(this)
+                    resole()
+                })
             })
         },
         changeCode({commit}){
