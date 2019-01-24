@@ -149,7 +149,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 /* van-submit-bar__bar */
 .van-submit-bar__bar{
     background: #3c3c3c;
