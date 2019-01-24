@@ -50,7 +50,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 /* payment-but */
 .payment-but{
     padding: 0 .3rem;

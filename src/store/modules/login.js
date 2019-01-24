@@ -2,20 +2,15 @@ import axios from '../../axios'
 export default {
     namespaced:true,
     state:{
-        captchas:''
+        captchas:'',
+        userMessage:{}
     },
     actions:{
         testLogin({commit},user){
-            // return new Promise((resolve,reject)=>{
-            //     axios.post('http://ele.kassing.cn/v2/login',{
-            //         user
-            //     }).then(res=>{
-            //         resolve()
-            //         console.log(res.data)
-            //     })
-            // })
             axios.post('/v2/login',user).then(res=>{
                 console.log(res.data)
+                localStorage.setItem('status',res.data.username)
+                this.userMessage=res.data
             })
         },
         changeCode({commit}){
