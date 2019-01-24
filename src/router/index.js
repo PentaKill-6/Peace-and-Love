@@ -109,7 +109,7 @@ const router = new Router({
       router.beforeEach((to, from, next) => {
         const login = localStorage.getItem('status');
         if (to.matched.some(route => route.meta.auth)) {
-          if (login == '1') {
+          if (login) {
             next();
           } else {
             next('/login?returnURL=' + to.path);
