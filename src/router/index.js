@@ -82,7 +82,12 @@ const router = new Router({
               // 登录注册
               {
                 path: '/login',
-                component: () => import('../views/Login.vue')
+                component: Login,
+                beforeEnter(to,from,next){
+                  // console.log(to,from)
+                  to.query.returnURL=from.path
+                  next()
+                }
               },
               //重置密码
               {
@@ -99,6 +104,7 @@ const router = new Router({
                 children: [{
                   path: 'info', // 个人信息详情页
                   component: () => import('../views/profile/Info')
+                  
                 }]
               }
             ]
@@ -109,10 +115,17 @@ const router = new Router({
       router.beforeEach((to, from, next) => {
         const login = localStorage.getItem('status');
         if (to.matched.some(route => route.meta.auth)) {
-          if (login == '1') {
+          if (login) {
             next();
           } else {
-            next('/login?returnURL=' + to.path);
+            // console.log(to)
+            next({
+              path:'/login',
+              query:{
+                returnURL:to.path
+              }
+            });
+            
           }
         } else {
           next();

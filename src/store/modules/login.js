@@ -1,4 +1,5 @@
 import axios from '../../axios'
+import router from '../../router/index'
 export default {
     namespaced:true,
     state:{
@@ -7,10 +8,14 @@ export default {
     },
     actions:{
         testLogin({commit},user){
-            axios.post('/v2/login',user).then(res=>{
-                console.log(res.data)
-                localStorage.setItem('status',res.data.username)
-                this.userMessage=res.data
+            return new Promise((resole,reject)=>{
+                axios.post('/v2/login',user).then(res=>{
+                    console.log(res.data)
+                    localStorage.setItem('status',res.data.username)
+                    commit('setUserMsg',res.data)
+                    // console.log(this)
+                    resole()
+                })
             })
         },
         changeCode({commit}){
@@ -28,6 +33,9 @@ export default {
     mutations:{
         setCode(state,code){
             state.captchas=code
+        },
+        setUserMsg(state,userMessage){
+            state.userMessage=userMessage
         }
     }
 }
