@@ -73,7 +73,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .login-header {
   height: 0.9rem;
   background: #3190e8;

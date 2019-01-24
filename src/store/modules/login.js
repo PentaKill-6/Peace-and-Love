@@ -1,21 +1,21 @@
 import axios from '../../axios'
+import router from '../../router/index'
 export default {
     namespaced:true,
     state:{
-        captchas:''
+        captchas:'',
+        userMessage:{}
     },
     actions:{
         testLogin({commit},user){
-            // return new Promise((resolve,reject)=>{
-            //     axios.post('http://ele.kassing.cn/v2/login',{
-            //         user
-            //     }).then(res=>{
-            //         resolve()
-            //         console.log(res.data)
-            //     })
-            // })
-            axios.post('/v2/login',user).then(res=>{
-                console.log(res.data)
+            return new Promise((resole,reject)=>{
+                axios.post('/v2/login',user).then(res=>{
+                    // console.log(res.data)
+                    localStorage.setItem('status',res.data.username)
+                    this.userMessage=res.data
+                    // console.log(this)
+                    resole()
+                })
             })
         },
         changeCode({commit}){

@@ -59,12 +59,12 @@ export default {
     },
     methods:{
         changeChecked(checked){
-            this.checked=checked;
-            // console.log(checked)
+            this.checked=checked
         },
         login(){
             this.$store.dispatch('login/testLogin',this.user).then(()=>{
-                // console.log(this.user)
+                const returnURL=this.$route.query.returnURL
+                this.$router.push(returnURL || '/')
             })
         },
         changeCode(){

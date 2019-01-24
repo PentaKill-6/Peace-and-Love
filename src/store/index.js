@@ -7,6 +7,7 @@ import state from './state'
 import getters from './getters'
 import mutations from './mutations'
 import actions from './actions'
+import confirmOeder from "./confirmOeder/confirmOeder"
 
 import home from './modules/home'
 import login from '../store/modules/login'
@@ -16,6 +17,7 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules:{
+    confirmOeder,
     home,
     login
   }
