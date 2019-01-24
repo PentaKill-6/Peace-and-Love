@@ -1,16 +1,16 @@
 <template>
     <div class="my">
-        <myheader>
+        <myheader >
             <p slot="myheader">我的</p>
         </myheader>
         <router-link to="/Info" class="login">
             <div>
-                <img width="59" height="59" src="//elm.cangdu.org/img/default.jpg" alt="">
+                <img width="59" height="59" :src="userMsg.avatar">
             </div>
             <div class="login-info">
                 <div>
                     <p></p>
-                    <p>用户名</p>
+                    <p>{{userMsg.uaername}}</p>
                     <p>
                         <span>tu</span>
                         <span>暂无绑定手机号</span>
@@ -65,11 +65,17 @@
 <script>
 import myheader from "../../components/myheader";
 export default {
-   
-        
-   components: {
+    components: {
     myheader
   },
+  computed:{
+      userMsg(){
+          return this.$store.state.login.userMessage
+      }
+  },
+  created(){
+      console.log(this.userMsg)
+  }
  
 }
 </script>
