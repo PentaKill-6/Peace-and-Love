@@ -14,7 +14,7 @@ export default {
         testLogin({commit},user){
             return new Promise((resolve,reject)=>{
                 axios.post('/v2/login',user).then(res=>{
-                    // console.log(res.data)
+                    console.log(res.data)
                     localStorage.setItem('status',res.data.username)
                     commit('setUserMsg',res.data)
                     // console.log(this)
