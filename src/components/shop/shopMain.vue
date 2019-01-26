@@ -44,37 +44,68 @@
           </ul>
         </cube-scroll-nav-panel>
       </cube-scroll-nav>
-      <div v-else class="comment">
-        <div class="score-left">
-          <span>{{score.overall_score.toFixed(1)}}</span>
-          <span>综合评价</span>
-          <span>高于周边商家{{(score.compare_rating*100).toFixed(1) + '%'}}</span>
-        </div>
-        <div class="score-right">
-          <p>
-            <span>服务态度</span>
-            <cube-rate v-model="serviceScore" :disabled="disabled" :max="max" :justify="justify"></cube-rate>
-            <span>{{score.service_score.toFixed(1)}}</span>
-          </p>
-          <p>
-            <span>菜品评价</span>
-            <cube-rate v-model="serviceScore" :disabled="disabled" :max="max" :justify="justify"></cube-rate>
-            <span>{{score.food_score.toFixed(1)}}</span>
-          </p>
-          <p>
-            <span>送达时间</span>
-            <span>{{score.deliver_time}}分钟</span>
-          </p>
-        </div>
+      
+      <div class="scroll-list-wrap" v-else>
+        <cube-scroll
+          ref="scroll"
+          :options="options"
+          @pulling-down="onPullingDown"
+          @pulling-up="onPullingUp">
+          <div class="comment">
+            <div class="score">
+              <div class="score-left">
+                <span>{{score.overall_score.toFixed(1)}}</span>
+                <span>综合评价</span>
+                <span>高于周边商家{{(score.compare_rating*100).toFixed(1) + '%'}}</span>
+              </div>
+              <div class="score-right">
+                <p>
+                  <span>服务态度</span>
+                  <cube-rate v-model="serviceScore" :disabled="disabled" :max="max" :justify="justify"></cube-rate>
+                  <span>{{score.service_score.toFixed(1)}}</span>
+                </p>
+                <p>
+                  <span>菜品评价</span>
+                  <cube-rate v-model="serviceScore" :disabled="disabled" :max="max" :justify="justify"></cube-rate>
+                  <span>{{score.food_score.toFixed(1)}}</span>
+                </p>
+                <p>
+                  <span>送达时间</span>
+                  <span>{{score.deliver_time}}分钟</span>
+                </p>
+              </div>
+            </div>
+            <div class="tag-list">
+              <span v-for="(tag, index) in tags" :key="index" :class="[{unsatisfied : tag.unsatisfied},{active : tagIndex === index}]" @touchstart="tagIndex = index">
+                {{tag.name+'('+ tag.count +')'}}
+              </span>
+            </div>
+            <ul class="comment-list">
+              <li v-for="(comment, index) in comments" :key="index" class="comment-box">
+                <img :src="setAvatar(comment.avatar)" alt="">
+                <div>
+                  <div class="comment-title">
+                    <p>
+                      <span>{{comment.username}}</span>
+                      <span>{{comment.rated_at}}</span>
+                    </p>
+                    <p>
+                      <img src="../../../public/img/star.png" alt="">
+                      <span>{{comment.time_spent_desc}}</span>
+                    </p>
+                  </div>
+                  <div class="comment-cont">
+                    <img :src="setImage (item.image_hash)" alt="" v-for="(item, i) in comment.item_ratings" :key="i" v-show="item.image_hash !== ''">
+                  </div>
+                  <div class="comment-tag">
+                    <span v-for="(item, i) in comment.item_ratings" :key="i">{{item.food_name}}</span>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </cube-scroll>
       </div>
-      <div class="tag-list">
-        <span v-for="(tag, index) in tags" :key="index" :class="[{unsatisfied : tag.unsatisfied},{active : tagIndex === index}]" @touchstart="tagIndex = index">
-          {{tag.name+'('+ tag.count +')'}}
-        </span>
-      </div>
-      <ul>
-        <li></li>
-      </ul>
   </div>
 </template>
 
@@ -93,7 +124,10 @@ export default {
       serviceScore: null,
       justify: true,
       tags: [],
-      tagIndex: 0
+      tagIndex: 0,
+      comments: [],
+      avatar: 'https://fuss10.elemecdn.com',
+      defaultImg: 'http://elm.cangdu.org/img/default.jpg'
     }
   },
   components: {
@@ -136,19 +170,75 @@ export default {
       try {
         await this.$store.dispatch('shop/getTags');
         this.tags = this.$store.state.shop.tags;
-        console.log(this.tags)
+        // console.log(this.tags)
       } catch(err) {
 
       }
-    }
+    },
+    async getComments () {
+      try {
+        await this.$store.dispatch('shop/getComments');
+        this.comments = this.$store.state.shop.comments;
+      } catch(err) {
+
+      }
+      // http://elm.cangdu.org/img/default.jpg
+      // https://fuss10.elemecdn.com/1/5f/6cf782b0c9cd5ca8daa7f76ab05aejpeg.jpeg
+    },
+    setAvatar (avatar) {
+      if (avatar === '') {
+        return this.defaultImg;
+      } else {
+        return this.avatar+'/'+avatar.slice(0,1)+'/'+avatar.slice(1,3)+'/'+avatar.slice(3)+'.jpeg';
+      }
+    },
+    setImage (imgHash) {
+      if (imgHash === '') {
+        return
+      } else {
+        return this.avatar+'/'+imgHash.slice(0,1)+'/'+imgHash.slice(1,3)+'/'+imgHash.slice(3)+'.jpeg';
+      }
+    } ,
+     onPullingDown() {
+      // 模拟更新数据
+      setTimeout(() => {
+        if (Math.random() > 0.5) {
+          // 如果有新数据
+          this.items.unshift(_foods[1])
+        } else {
+          // 如果没有新数据
+          this.$refs.scroll.forceUpdate()
+        }
+      }, 1000)
+    },
+    onPullingUp() {
+      // 模拟更新数据
+      setTimeout(() => {
+        if (Math.random() > 0.5) {
+          // 如果有新数据
+          let newPage = _foods.slice(0, 5)
+          this.items = this.items.concat(newPage)
+        } else {
+          // 如果没有新数据
+          this.$refs.scroll.forceUpdate()
+        }
+      }, 1000)
+    },
   },
   computed: {
-    
+    options() {
+      return {
+        pullDownRefresh: this.pullDownRefreshObj,
+        pullUpLoad: this.pullUpLoadObj,
+        scrollbar: true
+      }
+    }
   },
   created () {
     this.getMenu();
     this.getScore();
     this.getTags();
+    this.getComments();
   }
 }
 </script>
@@ -273,7 +363,7 @@ export default {
   .menu-title>span:nth-child(2) {
     font-size: 0.28rem;
   }
-  .comment {
+  .comment>.score {
     height: 2.2rem;
     background-color: #fff;
     padding: 0.4rem 0.25rem;
@@ -364,5 +454,67 @@ export default {
   .tag-list>.active {
     background-color: #3190e8;
     color: #fff;
+  }
+  .comment-list {
+    background-color: #fff;
+    padding: 0 0.25rem;
+  }
+  .comment-box {
+    border-top: 0.01rem solid #f1f1f1;
+    padding: 0.3rem 0;
+    display: flex;
+  }
+  .comment-box>img {
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-right: 0.4rem;
+    border-radius: 50%
+  }
+  .comment-box div {
+    width: 100%;
+  }
+  .comment-box .comment-title {
+    height: 0.64rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .comment-box div>p {
+    width: 100%;
+    color: #666;
+  }
+  .comment-box div>p:nth-child(1) {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.24rem;
+  }
+  .comment-box div>p:nth-child(2) {
+    font-size: 0.28rem;
+  }
+  .comment-box div>p:nth-child(2) >img {
+    width: 0.9rem;
+    height: 0.18rem;
+  }
+  .comment-cont>img {
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: 0.1rem;
+  }
+  .comment-tag>span {
+    display: inline-block;
+    width: 1.04rem;
+    height: 0.56rem;
+    line-height: 0.56rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.24rem;
+    color: #999;
+    margin-right: 0.1rem;
+    border: 0.01rem solid #ebebeb;
+    padding: 0 0.1rem;
+  }
+  .scroll-list-wrap {
+    height: 100%;
   }
 </style>

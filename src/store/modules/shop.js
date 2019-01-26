@@ -6,7 +6,8 @@ export default {
     shop: {},
     menu: [],
     score: {},
-    tags: []
+    tags: [],
+    comments: []
   },
   actions: {
     getData ({commit}) {
@@ -76,6 +77,18 @@ export default {
           }
         })
       })
+    },
+    getComments ({commit}) {
+      return new Promise((resolve, reject) => {
+        axios.get('http://elm.cangdu.org/ugc/v2/restaurants/1/ratings').then(res => {
+          if (res.status === 200) {
+            commit('setComments', res.data);
+            resolve();
+          } else {
+            reject(err);
+          }
+        })
+      })
     }
   },
   mutations: {
@@ -92,6 +105,9 @@ export default {
     },
     setTags (state, tags) {
       state.tags = tags;
+    },
+    setComments (state, comments) {
+      state.comments = comments;
     }
   }
 }
