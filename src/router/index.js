@@ -5,6 +5,8 @@ Vue.use(Router)
 import App from '../App'
 import Home from '../views/Home'
 import Login from '../views/Login'
+import Info from '../views/profile/Info'
+import Download from '../views/profile/download'
 const router = new Router({
       // mode: 'history',
       // base: process.env.BASE_URL,
@@ -98,18 +100,35 @@ const router = new Router({
                 component: () => import('../views/Reset.vue')
               },
               // 个人信息
+              // {
+              //   path: '/profile',
+              //   component: () => import('../views/profile/Profile'),
+              //   meta: {
+              //     auth: true
+              //   },
+              //   children: [{
+              //     path: '/info', // 个人信息详情页
+              //     component: Info
+                  
+              //   }]
+              // }
               {
                 path: '/profile',
                 component: () => import('../views/profile/Profile'),
                 meta: {
                   auth: true
-                },
-                children: [{
-                  path: 'info', // 个人信息详情页
-                  component: () => import('../views/profile/Info')
-                  
-                }]
+                },               
+              },
+              {
+                path: '/info', // 个人信息详情页
+                component: Info
+                
+              },
+              {
+                path:'/download', //下载elm app页
+                component:Download
               }
+
             ]
           }
         ]

@@ -1,5 +1,9 @@
 import axios from '../../axios'
 import router from '../../router/index'
+import Vue from 'vue'
+import { Dialog } from 'vant';
+
+Vue.use(Dialog);
 export default {
     namespaced:true,
     state:{
@@ -8,13 +12,22 @@ export default {
     },
     actions:{
         testLogin({commit},user){
-            return new Promise((resole,reject)=>{
+            return new Promise((resolve,reject)=>{
                 axios.post('/v2/login',user).then(res=>{
                     console.log(res.data)
                     localStorage.setItem('status',res.data.username)
                     commit('setUserMsg',res.data)
                     // console.log(this)
-                    resole()
+                    if(res.data.message){
+                        Dialog.alert({
+                            message: res.data.message
+                          }).then(() => {
+                            // on close
+                          });
+                    }else{
+                        resolve()
+                    }
+                    
                 })
             })
         },
