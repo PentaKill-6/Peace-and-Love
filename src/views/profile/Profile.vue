@@ -70,16 +70,17 @@
             </div>
             <span class="dian">></span>
         </router-link>
-       
+       <footGuide></footGuide>    
     </div>
     
 </template>
 
 <script>
 import myheader from "../../components/myheader";
+import footGuide from '../../components/footGuide';
 export default {
     components: {
-    myheader
+    myheader,footGuide
   },
   computed:{
       userMsg(){
