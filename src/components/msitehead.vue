@@ -1,6 +1,8 @@
 <template>
     <div class="top">
-       
+        <router-link to="/home" slot="msite-title" class="msite_title">
+			<span class="title_text ellipsis">{{msiteTitle}}</span>
+		</router-link>
     </div>
 </template>
 
@@ -9,18 +11,23 @@ import axios from 'axios'
 export default {
     data(){
         return {
-           
+            geohash:'',
+            msiteTitle: '',
         }
     },
-    created(){
-        
-        
-    },
     methods: {
-       
-
+        getAddress(){
+          this.geohash = this.$route.query.geohash
+          console.log(this.geohash)
+          axios.get('/v2/pois/'+ this.geohash).then(res => {
+            this.msiteTitle = res.data.name
+        })
+      }
     },
-    
+    created(){
+      this.getAddress()
+        
+    }
 }
 </script>
 
