@@ -25,4 +25,7 @@
   a{
     text-decoration: none;
   }
+  #app {
+    width: 7.5rem;
+  }
 </style>

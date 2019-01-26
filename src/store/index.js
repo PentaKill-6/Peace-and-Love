@@ -11,6 +11,7 @@ import confirmOeder from "./confirmOeder/confirmOeder"
 
 import home from './modules/home'
 import login from '../store/modules/login'
+import shop from '../store/modules/shop'
 export default new Vuex.Store({
   state,
   getters,
@@ -19,6 +20,7 @@ export default new Vuex.Store({
   modules:{
     confirmOeder,
     home,
-    login
+    login,
+    shop
   }
 })

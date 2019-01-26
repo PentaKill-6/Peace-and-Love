@@ -10,6 +10,7 @@ import Download from '../views/profile/download'
 const router = new Router({
       // mode: 'history',
       // base: process.env.BASE_URL,
+      linkActiveClass: 'is-active',
       routes: [{
         path: '/',
         component: App,
@@ -41,10 +42,12 @@ const router = new Router({
           {
             path: '/shop',
             component: () => import('../views/shop/Shop'),
-            children: [{
-              path: 'foodDetail', // 食品详情页
-              component: () => import('../views/shop/FoodDetail')
-            }]
+            children: [
+              {
+                path: 'foodDetail', // 食品详情页
+                component: () => import('../views/shop/FoodDetail')
+              }
+            ]
           },
           // 确认订单页
           {
