@@ -3,7 +3,7 @@
         <myheader >
             <p slot="myheader">我的</p>
         </myheader>
-        <router-link to="/Info" class="login">
+        <router-link to='/info' class="login">
             <div>
                 <img width="59" height="59" :src="userMsg.avatar">
             </div>
@@ -38,7 +38,6 @@
             <div class="dev">
                 <img class="icon" width="24" height="24" src="../../../imgs/order.png" alt="">
                 <span>我的订单</span>
-                
             </div>
             <span class="dian">></span>
         </router-link>
@@ -46,20 +45,34 @@
             <div class="dev">
                 <img class="icon" width="24" height="24" src="../../../imgs/shop.png" alt="">
                 <span>积分商城</span>
-                
             </div>
             <span class="dian">></span>
         </router-link>
-        <router-link to="/star" class="link">
+        <router-link to="/vipcard" class="link">
             <div class="dev">
                 <img class="icon" width="24" height="24" src="../../../imgs/star.png" alt="">
                 <span>饿了吗会员卡</span>
-                
             </div>
             <span class="dian">></span>
         </router-link>
-        
+
+        <router-link to="/service" class="link bottom">
+            <div class="dev">
+                <img class="icon" width="24" height="24" src="../../../imgs/star.png" alt="">
+                <span>服务中心</span>
+            </div>
+            <span class="dian">></span>
+        </router-link>
+        <router-link to="/download" class="link ">
+            <div class="dev">
+                <img class="icon" width="24" height="24" src="../../../imgs/elm.png" alt="">
+                <span>下载app</span>
+            </div>
+            <span class="dian">></span>
+        </router-link>
+       
     </div>
+    
 </template>
 
 <script>
@@ -187,6 +200,9 @@ export default {
     font-size: 0.36rem;
     margin-right: 0.2rem;
     color: #BCBCBC;
+}
+.bottom{
+    margin-top: 0.3rem;
 }
 .login .phone{
     width: 0.36rem;
