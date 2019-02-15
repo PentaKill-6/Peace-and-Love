@@ -24,7 +24,8 @@ export default {
   },
   methods: {
     getData () {
-      this.$store.dispatch('shop/getData').then(() => {
+      // console.log(this.$route.query)
+      this.$store.dispatch('shop/getData', this.$route.query.id).then(() => {
         this.shop = this.$store.state.shop.shop;
         this.imgurl = this.imgurl + this.shop.image_path;
         this.tips = this.shop.piecewise_agent_fee.tips;

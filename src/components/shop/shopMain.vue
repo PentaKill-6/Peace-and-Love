@@ -148,7 +148,7 @@ export default {
     },
     async getMenu () {
       try {
-        await this.$store.dispatch('shop/getMenu');
+        await this.$store.dispatch('shop/getMenu', this.$route.query.id);
         this.menu = this.$store.state.shop.menu;
         this.current = this.menu[0].name;
         // console.log(this.menu);
@@ -158,7 +158,7 @@ export default {
     },
     async getScore () {
       try {
-        await this.$store.dispatch('shop/getScore');
+        await this.$store.dispatch('shop/getScore', this.$route.query.id);
         this.score = this.$store.state.shop.score;
         this.serviceScore = this.$store.state.shop.score.service_score;
         // console.log(this.score)
@@ -168,7 +168,7 @@ export default {
     },
     async getTags () {
       try {
-        await this.$store.dispatch('shop/getTags');
+        await this.$store.dispatch('shop/getTags',this.$route.query.id);
         this.tags = this.$store.state.shop.tags;
         // console.log(this.tags)
       } catch(err) {
@@ -177,7 +177,7 @@ export default {
     },
     async getComments () {
       try {
-        await this.$store.dispatch('shop/getComments');
+        await this.$store.dispatch('shop/getComments', this.$route.query.id);
         this.comments = this.$store.state.shop.comments;
       } catch(err) {
 
@@ -334,6 +334,9 @@ export default {
   .cube-scroll-nav-bar-item_active {
     border-left: 0.1rem solid  #3190e8;
     background-color: #fff;
+  }
+  .cube-scroll-wrapper {
+    width: 100%;
   }
   .cube-sticky-content h2 {
     /* height: 1rem;

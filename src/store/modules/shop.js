@@ -10,13 +10,14 @@ export default {
     comments: []
   },
   actions: {
-    getData ({commit}) {
+    getData ({commit}, id) {
+      // console.log(id)
       return new Promise((resolve, reject) => {
         // axios.get('/shoping/restaurantslatitude=31.22967&longitude=121.4762').then(res => {
         //   console.log(res);
         //   resolve();
         // })
-        axios.get('http://elm.cangdu.org/shopping/restaurant/1').then(res => {
+        axios.get('http://elm.cangdu.org/shopping/restaurant/'+id).then(res => {
           // console.log(res);
           if (res.status === 200) {
             commit('setData', res.data);
@@ -27,9 +28,9 @@ export default {
         })
       })
     },
-    getMenu ({commit}) {
+    getMenu ({commit}, id) {
       return new Promise((resolve, reject) => {
-        axios.get('http://elm.cangdu.org/shopping/v2/menu?restaurant_id=1').then(res => {
+        axios.get('http://elm.cangdu.org/shopping/v2/menu?restaurant_id='+id).then(res => {
           // console.log(res);
           if (res.status === 200) {
             commit('setMenu',res.data)
@@ -52,9 +53,9 @@ export default {
       //   })
       // })
     },
-    getScore ({commit}) {
+    getScore ({commit}, id) {
       return new Promise((resolve, reject) => {
-        axios.get('http://elm.cangdu.org/ugc/v2/restaurants/1/ratings/scores').then(res => {
+        axios.get('http://elm.cangdu.org/ugc/v2/restaurants/'+ id +'/ratings/scores').then(res => {
           // console.log(res);
           if (res.status === 200) {
             commit('setScore', res.data);
@@ -65,9 +66,9 @@ export default {
         })
       })
     },
-    getTags ({commit}) {
+    getTags ({commit}, id) {
       return new Promise((resolve, reject) => {
-        axios.get('http://elm.cangdu.org/ugc/v2/restaurants/1/ratings/tags').then(res => {
+        axios.get('http://elm.cangdu.org/ugc/v2/restaurants/'+ id +'/ratings/tags').then(res => {
           // console.log(res);
           if (res.status === 200) {
             commit('setTags', res.data);
@@ -78,9 +79,9 @@ export default {
         })
       })
     },
-    getComments ({commit}) {
+    getComments ({commit}, id) {
       return new Promise((resolve, reject) => {
-        axios.get('http://elm.cangdu.org/ugc/v2/restaurants/1/ratings').then(res => {
+        axios.get('http://elm.cangdu.org/ugc/v2/restaurants/'+ id +'/ratings').then(res => {
           if (res.status === 200) {
             commit('setComments', res.data);
             resolve();
